@@ -5,6 +5,7 @@
 
 const char PCF8591 = 0x48; // adresa
 int fd, adcVal;
+int i;
 
 int main() 
 {
@@ -14,18 +15,22 @@ int main()
 
  	while (1) 
 	{
- 		/*// procitaj trimer pot sa AIN3 ulaza
+ 		
 
- 		adcVal = wiringPiI2CReadReg8(fd, PCF8591) ;
-		*/
-
-		for(int i = 0 ; i < 255 ; i ++ ) 
+		for( i = 0 ; i <= 255 ; i ++ ) 
 		{
 			wiringPiI2CWriteReg8(fd,PCF8591,i);
-			delay(10);
-		}
-		
+			delay(10);	
+			if(i == 255)
+			{
+				for( i ; i > 0 ; i-- )
+				{
 
+					wiringPiI2CWriteReg8(fd,PCF8591,i);
+					delay(10);
+				}
+			}
+		}
  	}
 
  	return 0;
